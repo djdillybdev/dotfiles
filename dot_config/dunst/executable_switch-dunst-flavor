@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+  echo "Usage: $0 {mocha|macchiato|frappe|latte}" >&2
+  exit 1
+fi
+
+flavor="$1"
+config_dir="$HOME/.config/dunst"
+source_file="$config_dir/${flavor}.conf"
+active_theme="$config_dir/current-theme.conf"
+base_file="$config_dir/dunstrc.base"
+active_config="$config_dir/dunstrc"
+
+if [[ ! -f "$source_file" ]]; then
+  echo "Unknown flavor: $flavor" >&2
+  echo "Available: mocha macchiato frappe latte" >&2
+  exit 1
+fi
+
+if [[ ! -f "$base_file" ]]; then
+  echo "Missing base file: $base_file" >&2
+  exit 1
+fi
+
+cp "$source_file" "$active_theme"
+cat "$base_file" "$active_theme" > "$active_config"
+
+if command -v dunstctl >/dev/null 2>&1; then
+  dunstctl reload || true
+fi
+
+echo "Dunst flavor set to: $flavor"

@@ -1,0 +1,107 @@
+[global]
+    follow = mouse
+    monitor = 0
+
+    width = (280, 420)
+    height = (0, 180)
+    notification_limit = 10
+    origin = top-right
+    offset = (14, 44)
+
+    indicate_hidden = true
+    shrink = yes
+    transparency = 0
+
+    gap_size = 8
+    separator_height = 0
+    separator_color = frame
+
+    padding = 8
+    horizontal_padding = 12
+    text_icon_padding = 8
+
+    frame_width = 1
+    frame_color = "#cba6f7"
+    highlight = "#cba6f7"
+    corner_radius = 0
+    corners = all
+
+    sort = update
+    idle_threshold = 0
+
+    font = DepartureMono Nerd Font Mono 14
+    line_height = 0
+    markup = strip
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = -1
+    word_wrap = true
+    ellipsize = middle
+    ignore_newline = false
+
+    stack_duplicates = true
+    hide_duplicate_count = true
+    show_indicators = false
+
+    icon_position = left
+    min_icon_size = 18
+    max_icon_size = 42
+    icon_corner_radius = 0
+    icon_corners = all
+    enable_recursive_icon_lookup = true
+    icon_theme = Papirus-Dark,Adwaita
+
+    progress_bar = true
+    progress_bar_height = 6
+    progress_bar_frame_width = 0
+    progress_bar_corner_radius = 0
+    progress_bar_corners = all
+    progress_bar_min_width = 120
+    progress_bar_max_width = 360
+    progress_bar_horizontal_alignment = center
+
+    sticky_history = true
+    history_length = 60
+
+    dmenu = /usr/bin/dmenu -p dunst:
+    browser = /usr/bin/firedragon -new-tab
+    always_run_script = true
+    ignore_dbusclose = false
+
+    mouse_left_click = close_current
+    mouse_middle_click = do_action,close_current
+    mouse_right_click = context
+
+[rule_progress_overlay]
+    appname = "dunstify"
+    summary = "Volume|Brightness"
+    set_stack_tag = "sys-slider"
+    hide_text = true
+    icon_position = off
+    timeout = 1200
+
+[rule_media]
+    desktop_entry = "spotify|spotifywm|playerctl"
+    timeout = 5000
+    icon_position = left
+
+[rule_chat_low]
+    desktop_entry = "discord|vesktop|telegramdesktop"
+    msg_urgency = low
+    timeout = 3500
+
+[rule_critical_system]
+    desktop_entry = "org\.freedesktop\.UPower|upower|nm-applet|NetworkManager"
+    msg_urgency = critical
+    override_pause_level = 100
+    timeout = 0
+
+[urgency_low]
+    timeout = 4
+
+[urgency_normal]
+    timeout = 6
+
+[urgency_critical]
+    timeout = 0

@@ -1,0 +1,82 @@
+@import "catppuccin-mocha.rasi"
+
+* {
+  bg: @base;
+  fg: @text;
+  muted: @subtext0;
+  accent: @mauve;
+  surface: @surface0;
+  surface-border: @surface2;
+
+  background-color: @bg;
+  text-color: @fg;
+  border: 0;
+  border-color: @surface-border;
+  border-radius: 0;
+  padding: 6;
+  spacing: 4;
+}
+
+window {
+  location: center;
+  width: 50%;
+  padding: 8;
+  border-radius: 0;
+}
+
+mainbox {
+  children: [inputbar, listview];
+  spacing: 4;
+}
+
+inputbar {
+  background-color: @bg;
+  padding: 2;
+  border-radius: 0;
+  children: [prompt, entry];
+}
+
+prompt {
+  enabled: true;
+  background-color: transparent;
+  padding: 0 6 0 2;
+  text-color: @muted;
+}
+
+entry {
+  background-color: @bg;
+  padding: 0 4 0 0;
+  text-color: @fg;
+}
+
+listview {
+  columns: 1;
+  lines: 9;
+  spacing: 2;
+  cycle: true;
+  scrollbar: false;
+}
+
+element {
+  padding: 2 2;
+  border-radius: 0;
+  text-color: @muted;
+}
+
+element selected {
+  background-color: transparent;
+  text-color: @accent;
+}
+
+element-text {
+  background-color: inherit;
+  text-color: inherit;
+}
+
+element-icon {
+  enabled: false;
+}
+
+mode-switcher {
+  enabled: false;
+}
