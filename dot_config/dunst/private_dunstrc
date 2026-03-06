@@ -29,7 +29,7 @@
     sort = update
     idle_threshold = 0
 
-    font = DepartureMono Nerd Font Mono 12
+    font = DepartureMono Nerd Font Mono 14
     line_height = 0
     markup = strip
     format = "<b>%s</b>\n%b"
@@ -106,19 +106,19 @@
 [urgency_critical]
     timeout = 0
 [global]
-frame_color = "#cba6f7"
+frame_color = "#81ebcf"
 separator_color= frame
-highlight = "#cba6f7"
+highlight = "#81ebcf"
 
 [urgency_low]
-background = "#1e1e2e"
-foreground = "#cdd6f4"
+background = "#130409"
+foreground = "#b59da4"
 
 [urgency_normal]
-background = "#1e1e2e"
-foreground = "#cdd6f4"
+background = "#130409"
+foreground = "#b59da4"
 
 [urgency_critical]
-background = "#1e1e2e"
-foreground = "#cdd6f4"
-frame_color = "#fab387"
+background = "#130409"
+foreground = "#b59da4"
+frame_color = "#c4c396"

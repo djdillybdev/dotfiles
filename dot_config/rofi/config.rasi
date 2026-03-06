@@ -138,4 +138,4 @@ configuration {
 /*      me-accept-custom: "Control+MouseD1";*/
 }
 
-@theme "rofi-minimal-mocha.rasi"
+@theme "rofi-minimal.rasi"

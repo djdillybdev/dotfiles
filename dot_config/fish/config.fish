@@ -45,6 +45,12 @@ if test -d ~/Applications/depot_tools
     end
 end
 
+if test -d ~/.emacs.d/bin
+    if not contains -- ~/.emacs.d/bin $PATH
+        set -p PATH ~/.emacs.d/bin
+    end
+end
+
 # Zoxide for quick directory navigation
 if status --is-interactive
     zoxide init fish | source
@@ -185,3 +191,4 @@ alias rip 'expac --timefmt="%Y-%m-%d %T" "%l\t%n %v" | sort | tail -200 | nl'
 if status --is-interactive && type -q fastfetch
     fastfetch --config neofetch.jsonc
 end
+mise activate fish | source
