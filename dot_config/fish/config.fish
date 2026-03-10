@@ -1,8 +1,22 @@
+# Detect OS
+switch (uname)
+    case Darwin
+        set -g OS mac
+    case Linux
+        set -g OS linux
+end
+
+if test -d /opt/homebrew
+    /opt/homebrew/bin/brew shellenv | source
+end
+
 ## Set values
 # Hide welcome message & ensure we are reporting fish as shell
 set fish_greeting
 set VIRTUAL_ENV_DISABLE_PROMPT 1
-set -x SHELL /usr/bin/fish
+
+# set -x SHELL /usr/bin/fish
+set -x SHELL (which fish)
 
 # Editors/pagers (lets tools behave consistently)
 set -gx EDITOR nvim
@@ -61,8 +75,9 @@ if type -q keychain
 end
 
 ## Starship prompt
-if status --is-interactive
-    source ("/usr/bin/starship" init fish --print-full-init | psub)
+if status --is-interactive; and type -q starship
+    starship init fish | source
+    # source ("/usr/bin/starship" init fish --print-full-init | psub)
 end
 
 ## Functions
@@ -118,11 +133,13 @@ function copy
 end
 
 # Cleanup local orphaned packages
-function cleanup
-    while pacman -Qdtq
-        sudo pacman -R (pacman -Qdtq)
-        if test "$status" -eq 1
-            break
+if test "$OS" = linux
+    function cleanup
+        while pacman -Qdtq
+            sudo pacman -R (pacman -Qdtq)
+            if test "$status" -eq 1
+                break
+            end
         end
     end
 end
@@ -148,44 +165,57 @@ alias ... 'cd ../..'
 alias .... 'cd ../../..'
 alias ..... 'cd ../../../..'
 alias ...... 'cd ../../../../..'
-alias big 'expac -H M "%m\t%n" | sort -h | nl' # Sort installed packages according to size in MB (expac must be installed)
 alias dir 'dir --color=auto'
-alias fixpacman 'sudo rm /var/lib/pacman/db.lck'
-alias gitpkg 'pacman -Q | grep -i "\-git" | wc -l' # List amount of -git packages
 alias grep 'ugrep --color=auto'
 alias egrep 'ugrep -E --color=auto'
 alias fgrep 'ugrep -F --color=auto'
-alias grubup 'sudo update-grub'
-alias hw 'hwinfo --short' # Hardware Info
+
+if type -q update-grub
+    alias grubup 'sudo update-grub'
+end
+if type -q hwinfo
+    alias hw 'hwinfo --short' # Hardware Info
+end
 alias ip 'ip -color'
 alias psmem 'ps auxf | sort -nr -k 4'
 alias psmem10 'ps auxf | sort -nr -k 4 | head -10'
-alias rmpkg 'sudo pacman -Rdd'
 alias tarnow 'tar -acf '
 alias untar 'tar -zxvf '
-alias upd /usr/bin/garuda-update
+if test "$OS" = linux
+    alias upd /usr/bin/garuda-update
+end
 alias vdir 'vdir --color=auto'
 alias wget 'wget -c '
 
-# Get fastest mirrors
-alias mirror 'sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist'
-alias mirrora 'sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist'
-alias mirrord 'sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist'
-alias mirrors 'sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist'
+if test "$OS" = linux
+    # Get fastest mirrors
+    alias mirror 'sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist'
+    alias mirrora 'sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist'
+    alias mirrord 'sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist'
+    alias mirrors 'sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist'
 
-# Help people new to Arch
-alias apt 'man pacman'
-alias apt-get 'man pacman'
+    # Help people new to Arch
+    alias apt 'man pacman'
+    alias apt-get 'man pacman'
+
+    alias big 'expac -H M "%m\t%n" | sort -h | nl' # Sort installed packages according to size in MB (expac must be installed)
+    alias gitpkg 'pacman -Q | grep -i "\-git" | wc -l' # List amount of -git packages
+    alias rmpkg 'sudo pacman -Rdd'
+    alias fixpacman 'sudo rm /var/lib/pacman/db.lck'
+    alias pacdiff 'sudo -H DIFFPROG=meld pacdiff'
+
+    # Recent installed packages
+    alias rip 'expac --timefmt="%Y-%m-%d %T" "%l\t%n %v" | sort | tail -200 | nl'
+end
+
 alias please sudo
 alias tb 'nc termbin.com 9999'
 alias helpme 'echo "To print basic information about a command use tldr <command>"'
-alias pacdiff 'sudo -H DIFFPROG=meld pacdiff'
 
-# Get the error messages from journalctl
-alias jctl 'journalctl -p 3 -xb'
-
-# Recent installed packages
-alias rip 'expac --timefmt="%Y-%m-%d %T" "%l\t%n %v" | sort | tail -200 | nl'
+if type -q journalctl
+    # Get the error messages from journalctl
+    alias jctl 'journalctl -p 3 -xb'
+end
 
 ## Run fastfetch if session is interactive
 if status --is-interactive && type -q fastfetch
