@@ -1,0 +1,10 @@
+README.md
+
+{{- if eq .chezmoi.os "darwin" }}
+.config/i3
+.config/dunst
+.config/rofi
+.config/polybar
+.config/picom.conf
+{{- end }}
+
